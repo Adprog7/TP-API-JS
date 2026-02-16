@@ -8,27 +8,33 @@ async function getUsers() {
 
         const search = document.getElementById("search").value.toLowerCase();
 
+        list.innerHTML = "";
+
+
         const filtered = data.filter(personne =>
             personne.name.toLowerCase().includes(search)
         );
 
-        
 
-        list.innerHTML = "";
-
-                    if (filtered.length === 0) {
+        if (filtered.length === 0) {
             list.innerHTML = "<li>Aucun utilisateur trouvé</li>";
             return;
         }
 
-        data.filter(personne => personne.name.toLowerCase().includes(search)).forEach(personne => {
+        const formatted = filtered.map(personne =>
+            `${personne.name} - ${personne.email} - ${personne.address.city}`
+        );
+
+
+        formatted.forEach(text => {
             const li = document.createElement("li");
-            li.textContent = personne.name+" - "+personne.email+" - "+personne.address.city;
+            li.textContent = text;
             list.appendChild(li);
         });
-
-
         
         console.log(response.status);
 
     }
+
+    document.addEventListener("DOMContentLoaded", getUsers);
+    document.getElementById("search").addEventListener("input", getUsers);
